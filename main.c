@@ -31,6 +31,7 @@ void initMat(matrice *m){
     for(i=0;i<(*m).nb_ligne;i++){
         for(j=0;j<(*m).nb_colonne;j++){
             printf("Entrer la valeur en %d;%d : ",i,j);
+            fflush(stdin);
             scanf("%d",&(*m).data[i][j]);
         }
     }
@@ -124,23 +125,55 @@ matrice multMat(matrice a,matrice b){
     }
 }
 
+int ask(char question[255]){
+    int choix;
+    printf("%s",question);
+    scanf("%d",&choix);
+
+    return choix;
+}
+
 int main()
 {
-    matrice b=newMat(3,3);
+    matrice a,b;
+    int choix = 0;
+    if(ask("Voulez vous charger une matrice 'A' existante ? 1 = Oui\n")==1){
+         a=loadMat('a');
+         printf("chargement de la matrice A\n");
+    }else{
+        a=newMat(3,3);
+        printf("Creation de la matrice A\n");
+        initMat(&a);
+    }
+
+    if(ask("Voulez vous charger une matrice 'B' existante ? 1 = Oui\n")==1){
+         b=loadMat('b');
+         printf("chargement de la matrice B\n");
+    }else{
+        b=newMat(3,3);
+        printf("Creation de la matrice B\n");
+        initMat(&b);
+    }
+
+    /*matrice b=newMat(3,3);
     initMat(&b);
     matrice a=loadMat('a');
     printf("Matrice A :\n");
     printMat(a);
 
     printf("Matrice B:\n");
-    printMat(b);
+    printMat(b);*/
     //saveMat(a,'a');
     matrice m = multMat(a,b);
-    printf("Matrice C:\n");
+    printf("A x B =\n");
+    printMat(m);
+
+    m = addMat(a,b);
+    printf("A + B =\n");
     printMat(m);
 
     scalMat(2,&m);
-    printf("Matrice D:\n");
+    printf("2 * A =\n");
     printMat(m);
 
 
